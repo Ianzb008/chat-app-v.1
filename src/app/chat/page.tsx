@@ -7,7 +7,7 @@ const chatApp = () => {
       <div className='w-1/4 h-screen'>
         <CompanionSection/>
       </div>
-      <div className='border w-6/12 h-screen'>
+      <div className=' w-6/12 h-screen'>
         <MessageSection/>
       </div>
       <div className='border-black border w-1/4 h-screen'>

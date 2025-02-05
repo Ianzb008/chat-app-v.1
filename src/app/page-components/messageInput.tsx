@@ -17,18 +17,16 @@ export default function Component() {
   } = useCharacterLimit({ maxLength });
 
   return (
-    <div className="relative min-h-screen border border-gray-400 p-4">
-            <div className="flex-grow p-8"></div>
+    <div className="relative min-h-screen border border-gray-400 p-4 overflow-hidden">
+      <div className="flex-grow p-8"></div>
       <div className="absolute bottom-0 left-0 w-full text-center p-4">
         <div className="space-y-2">
           <Label htmlFor={id}></Label>
-          <div className="flex items-center gap-2"> 
-            {/* Flex container to align input & button horizontally */}
-            <div className="relative flex-grow"> 
-              {/* Input takes full available space */}
+          <div className="flex items-center gap-2 w-full"> 
+            <div className="relative flex-grow w-full">
               <Input
                 id={id}
-                className="peer pe-14 w-full"
+                className="peer pe-14 w-full overflow-hidden truncate"
                 type="text"
                 value={value}
                 maxLength={maxLength}
@@ -44,7 +42,7 @@ export default function Component() {
                 {characterCount}/{limit}
               </div>
             </div>
-            <Button className="rounded-full">Send</Button>
+            <Button className="rounded-full whitespace-nowrap">Send</Button>
           </div>
         </div>
       </div>

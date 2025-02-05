@@ -77,7 +77,7 @@ export function CompanionList() {
   mode="single"
   selected={date}
   onSelect={setDate}
-  className="rounded-md mt-6  flex justify-center mx-auto"
+  className="rounded-md mt-4 flex justify-center mx-auto"
 />
 </div>
     </div>
