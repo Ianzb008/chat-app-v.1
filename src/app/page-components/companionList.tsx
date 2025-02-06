@@ -72,14 +72,14 @@ export function CompanionList() {
       </div>
         </div> 
         </Link>
-    <div className="mr-4">
+    {/* <div className="mr-4">
         <Calendar
   mode="single"
   selected={date}
   onSelect={setDate}
   className="rounded-md mt-4 flex justify-center mx-auto"
 />
-</div>
+</div> */}
     </div>
     );
 }

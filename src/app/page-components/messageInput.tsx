@@ -1,6 +1,6 @@
 "use client";
 
-import { useCharacterLimit } from "@/hooks/use-character-limit";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -9,42 +9,58 @@ import { useId } from "react";
 export default function Component() {
   const id = useId();
   const maxLength = 50;
-  const {
-    value,
-    characterCount,
-    handleChange,
-    maxLength: limit,
-  } = useCharacterLimit({ maxLength });
+
+  const [value, setValue] = useState(""); // Handle input state manually
+  const [messages, setMessages] = useState<string[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= maxLength) {
+      setValue(e.target.value);
+    }
+  };
+
+  const handleSendMessage = () => {
+    if (value.trim() !== "") {
+      setMessages((prev) => [...prev, value]);
+      setValue(""); // Clear input field after sending
+    }
+  };
 
   return (
-    <div className="relative min-h-screen border border-gray-400 p-4 overflow-hidden">
-      <div className="flex-grow p-8"></div>
-      <div className="absolute bottom-0 left-0 w-full text-center p-4">
-        <div className="space-y-2">
-          <Label htmlFor={id}></Label>
-          <div className="flex items-center gap-2 w-full"> 
-            <div className="relative flex-grow w-full">
-              <Input
-                id={id}
-                className="peer pe-14 w-full overflow-hidden truncate"
-                type="text"
-                value={value}
-                maxLength={maxLength}
-                onChange={handleChange}
-                aria-describedby={`${id}-description`}
-              />
-              <div
-                id={`${id}-description`}
-                className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-xs tabular-nums text-muted-foreground peer-disabled:opacity-50"
-                aria-live="polite"
-                role="status"
-              >
-                {characterCount}/{limit}
-              </div>
+    <div className="relative min-h-screen border border-gray-400 p-4 flex flex-col">
+      {/* Message Display */}
+      <div className="flex-grow p-8 space-y-3 overflow-y-auto">
+        {messages.map((msg, index) => (
+          <div key={index} className="flex justify-end">
+            <div className="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs shadow-md">
+              {msg}
             </div>
-            <Button className="rounded-full whitespace-nowrap">Send</Button>
+          </div>
+        ))}
+      </div>
+
+      {/* Input Section */}
+      <div className="sticky bottom-0 left-0 w-full bg-white p-4 border-t flex items-center gap-2">
+        <div className="relative flex-grow">
+          <Input
+            id={id}
+            className="peer w-full px-3 py-2 border rounded-lg"
+            type="text"
+            value={value}
+            maxLength={maxLength}
+            onChange={handleChange}
+            aria-describedby={`${id}-description`}
+          />
+          <div
+            id={`${id}-description`}
+            className="absolute right-3 top-2 text-xs text-gray-50"
+          >
+            {value.length}/{maxLength}
           </div>
         </div>
+        <Button className="rounded-lg bg-blue-500 text-white px-4 py-2 hover:text-gray-50" onClick={handleSendMessage}>
+          Send
+        </Button>
       </div>
     </div>
   );
